@@ -29,6 +29,22 @@ The Microsoft Learn MCP server exposes tools to search docs, fetch full doc page
   ```
   If you have the older individual extensions installed (for example `azure.ai.agents`), uninstall them first with `azd ext uninstall <id>`.
 - Signed in: `azd auth login`
+- A Foundry role for the account that runs `azd` (see below)
+
+### Required Foundry role
+
+The account that runs `azd up` needs a Foundry role on the Foundry resource (or project) you deploy to:
+
+| Role | When you need it |
+|------|------------------|
+| **Foundry User** (formerly Azure AI User) | Minimum to deploy into an existing project. Lets you create the toolbox and the hosted agent, and invoke the agent. |
+| **Foundry Project Manager** (recommended) | Everything Foundry User can do, plus assigning the Foundry User role, which `azd up` needs to do for the agent (see below). |
+
+After deploying, `azd up` tries to assign **Foundry User** to the hosted agent's identity so the agent can call the model and the toolbox. That step needs permission to assign roles, which comes with Foundry Project Manager, Foundry Account Owner, User Access Administrator, or Role Based Access Control Administrator. With only Foundry User, that step may fail with a 403, and someone with one of those roles has to assign Foundry User to the agent's identity.
+
+If your account doesn't have Foundry User on the project, `azd` tries to assign it to you, which also needs one of the roles above.
+
+If you let `azd` create a new Foundry resource and project instead of using an existing one, you also need **Contributor** (or Owner) on the subscription or resource group, plus permission to assign roles (Owner or User Access Administrator). See [Azure built-in roles](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles) for details.
 
 ## Provision and deploy
 
