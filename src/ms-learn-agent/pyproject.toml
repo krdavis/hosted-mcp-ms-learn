@@ -1,0 +1,11 @@
+[project]
+name = "ms-learn-agent"
+version = "0.1.0"
+description = "A Microsoft Foundry hosted agent that answers questions using the Microsoft Learn MCP server."
+requires-python = ">=3.13"
+dependencies = [
+    "agent-framework-foundry",
+    "agent-framework-foundry-hosting>=1.0.0b260813",
+    "python-dotenv",
+    "debugpy",
+]
